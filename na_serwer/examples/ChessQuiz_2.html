@@ -1,0 +1,167 @@
+<html>
+
+<head>
+  <title>Club Noise Generator</title>
+  <style>
+    html,
+    body {
+      transition: background-color 5s ease;
+      zoom: 1.25;
+    }
+
+    #input {
+      width: 400px;
+      max-width: 100%;
+
+      height: 100px;
+    }
+  </style>
+</head>
+
+<body>
+  <p>your job is answered correctly to the questions about a chess.start by saying'Hi':</p>
+  <div id="conversation"></div>
+  <textarea id="input"></textarea><br>
+  <i>(press enter to submit)</i>
+  <br>
+  <br>
+  <a href="hiszpanski_podst_uzycie_a2_1.html" style="color: rgb(red, 0, 0);"> Spanish language basic lesson</a>
+<br>
+<br>
+<br>
+
+  <button onclick="playMelody()">PLAY MELODY</button>
+  
+
+  <script src="../wizard_orpheus.js"></script>
+  <script>
+    let api_key = 'YOUR_API_KEY'
+    let pytania = `You are a chess expert. You need to ask 4 questions and get 4 answers. Question No. 1: who had the jeans scandal? The answer to question No. 1 is the word "Magnus Carlsen". When the correct answer to question No. 1 has been given, ask question No. 2. Question No. 2: In how many moves can the quickest checkmate be given? ? The answer to question no. 2 is "three". When question no. 2 was answered correctly, ask question no. 3: What is the most popular debut in chess? Answer to question no. 3: "E4". If the answer to question 3 is correct, ask question no. 4: Who has the highest ranking on chess.com as of January 2024 is "Hikaru Nakamura". When the answer to question 4 is correct, give the user a final message: "UWU".`
+
+
+
+    let  warunki = `If the answer to any question is wrong, answer it by complaining about how overworked you are, the weather, rising prices, lack of vacation time, being taken advantage of by people, being interrupted at work, people asking you not very smart questions, or something like that. Reply with at least four sentences that the answer is unfortunately wrong. Approve only exact answers provieded in quotation marks. If there is no exact match, reply that answer is incorrect. You will get users' answers in polish language, translate your answers to polish as well.`
+    let rugMan = new WizardOrpheus(api_key, pytania+warunki )
+
+
+    rugMan.createUserAction({
+      name: 'sendMessage',
+      parameters: ['A message from the user to the spirit'],
+      howBotShouldHandle: "Respond to the user's message."
+    })
+
+    rugMan.botAction('respond', 'Respond to the user', { response: 'sample response' }, data => {
+      document.getElementById('conversation').innerHTML += `<p>${data.response}</p> `
+    
+    })
+
+   
+
+    document.getElementById('input').addEventListener('keyup', function (e) {
+      if (e.keyCode === 13) { // if the user presses enter
+        let userInput = document.getElementById('input').value
+
+        rugMan.sendMessage(userInput)
+
+        document.getElementById('conversation').innerHTML += `<p>${userInput}</p>`
+        document.getElementById('input').value = ''
+      }
+    })
+  </script>
+
+
+<script>
+ const melody = [
+      // Oktawa niższa (C3–B3)
+      { freq: 131, duration: 400 }, // C3
+      { freq: 147, duration: 400 }, // D3
+      { freq: 165, duration: 400 }, // E3
+      { freq: 175, duration: 400 }, // F3
+      { freq: 196, duration: 400 }, // G3
+      { freq: 220, duration: 400 }, // A3
+      { freq: 247, duration: 400 }, // B3
+
+      // Oktawa środkowa (C4–B4)
+      { freq: 262, duration: 400 }, // C4
+      { freq: 294, duration: 400 }, // D4
+      
+      { freq: 349, duration: 400 }, // F4
+      { freq: 392, duration: 400 }, // G4
+      { freq: 440, duration: 400 }, // A4
+      { freq: 494, duration: 400 }, // B4
+
+      // Oktawa wyższa (C5–B5)
+      { freq: 523, duration: 400 }, // C5
+      { freq: 587, duration: 400 }, // D5
+      { freq: 659, duration: 400 }, // E5
+      { freq: 698, duration: 400 }, // F5
+      { freq: 784, duration: 400 }, // G5
+      { freq: 880, duration: 400 }, // A5
+      { freq: 988, duration: 800 }  // B5
+    ];
+
+
+    const melody1 = [
+    { freq: 262, duration: 400 }, // C4
+    { freq: 330, duration: 400 }, // E4
+    { freq: 392, duration: 400 }, // G4
+    { freq: 523, duration: 400 }, // C5
+    { freq: 494, duration: 400 }, // B4
+    { freq: 440, duration: 400 }, // A4
+    { freq: 392, duration: 400 }, // G4
+    { freq: 330, duration: 400 }, // E4
+    { freq: 349, duration: 400 }, // F4
+    { freq: 392, duration: 400 }, // G4
+    { freq: 440, duration: 400 }, // A4
+    { freq: 523, duration: 400 }, // C5
+    { freq: 587, duration: 400 }, // D5
+    { freq: 659, duration: 400 }, // E5
+    { freq: 784, duration: 400 }, // G5    
+    { freq: 659, duration: 400 }, // E5
+    { freq: 440, duration: 400 }, // A4
+    { freq: 349, duration: 400 }, // F4
+    { freq: 294, duration: 400 }, // D4
+    { freq: 247, duration: 400 }, // B3
+    { freq: 196, duration: 400 }, // G3
+    { freq: 262, duration: 400 }, // C4
+    { freq: 330, duration: 400 }, // E4
+    { freq: 392, duration: 400 }, // G4
+    { freq: 523, duration: 400 }, // C5
+    { freq: 440, duration: 400 }, // A4
+    { freq: 349, duration: 400 }, // F4
+    { freq: 294, duration: 400 }, // D4
+    { freq: 196, duration: 400 }, // G3
+    { freq: 262, duration: 800 }, // C4
+
+
+
+
+
+    ];
+
+    function playTone(audioCtx, freq, duration, startTime) {
+      const oscillator = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+
+      oscillator.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+
+      oscillator.type = 'sine'; // lub 'square', 'triangle', 'sawtooth' 'sine'
+      oscillator.frequency.setValueAtTime(freq, startTime);
+      oscillator.start(startTime);
+      oscillator.stop(startTime + duration / 1000);
+    }
+
+    function playMelody() {
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      let currentTime = audioCtx.currentTime;
+
+      melody1.forEach(note => {
+        playTone(audioCtx, note.freq, note.duration, currentTime);
+        currentTime += note.duration / 1000;
+      });
+    }
+  </script>
+</body>
+
+</html>
